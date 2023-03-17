@@ -54,7 +54,7 @@ export function HeroSection() {
       <div>
         <img
           src="/hero-image.png"
-          className="w-100 max-w-[476px] h-100 max-h-[360px]"
+          className="w-full max-w-[476px] h-100 max-h-[360px]"
         />
       </div>
     </section>

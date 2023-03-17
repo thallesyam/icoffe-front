@@ -8,7 +8,13 @@ export function Results() {
       </h2>
 
       <section className="grid grid-cols-4 items-center gap-8">
-        <ProductCard />
+        <ProductCard
+          company="starbucks"
+          title="Expresso Tradicional"
+          price={9.9}
+          imageUrl="/coffee-placeholder.png"
+          description="O tradicional café feito com água quente e grãos moídos"
+        />
       </section>
     </section>
   )
