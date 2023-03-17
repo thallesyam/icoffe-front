@@ -3,9 +3,9 @@ import { Minicart } from '@/components/Minicart'
 
 export function Header() {
   return (
-    <header className="flex justify-between items-center w-100 max-w-[1440px] m-auto py-8 px-2">
+    <header className="flex justify-between items-center py-8 px-2">
       <div>
-        <h1>Icoffee</h1>
+        <p>Icoffee</p>
       </div>
 
       <div className="flex items-center gap-3">
