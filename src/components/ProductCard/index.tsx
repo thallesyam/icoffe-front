@@ -1,12 +1,13 @@
 import { ShoppingCart } from 'phosphor-react'
 import { QuantityChanger } from '@/components/QuantityChanger'
 
-type ProductCardProps = {
+export type ProductCardProps = {
   imageUrl: string
   title: string
   description: string
   company: string
   price: number
+  isProfilePage?: boolean
 }
 
 export function ProductCard({
@@ -15,6 +16,7 @@ export function ProductCard({
   imageUrl,
   price,
   title,
+  isProfilePage = false,
 }: ProductCardProps) {
   return (
     <div className="w-full max-w-[256px] bg-gray-50 px-6 py-5 text-center rounded-[36px]">
@@ -38,18 +40,33 @@ export function ProductCard({
       </span>
 
       <div className="flex items center justify-between">
-        <p className="flex gap-1 items-center">
-          <span className="font-normal text-xs">R$</span>
-          <span className="font-extrabold font-cursive text-2xl">{price}</span>
-        </p>
+        {isProfilePage ? (
+          <div className="flex items-center gap-2  w-full">
+            <button className="w-full text-xs py-4 bg-orange-500 text-white mt-2 rounded-md hover:transition-all hover:bg-orange-900">
+              Editar produto
+            </button>
 
-        <div className="flex items center gap-2">
-          <QuantityChanger />
+            <button className="w-full text-xs py-4 bg-red-400 text-white mt-2 rounded-md hover:transition-all hover:bg-red-500">
+              Deletar produto
+            </button>
+          </div>
+        ) : (
+          <>
+            <p className="flex gap-1 items-center">
+              <span className="font-normal text-xs">R$</span>
+              <span className="font-extrabold font-cursive text-2xl">
+                {price}
+              </span>
+            </p>
+            <div className="flex items center gap-2">
+              <QuantityChanger />
 
-          <button className="p-2 bg-purple-900 rounded-md hover:bg-purple-500 hover:transition-all max-w-[38px] max-h-[38px]">
-            <ShoppingCart size={22} weight="fill" className="text-white" />
-          </button>
-        </div>
+              <button className="p-2 bg-purple-900 rounded-md hover:bg-purple-500 hover:transition-all max-w-[38px] max-h-[38px]">
+                <ShoppingCart size={22} weight="fill" className="text-white" />
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   )

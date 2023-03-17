@@ -49,7 +49,7 @@ export function UserProfile() {
             Salvar dados
           </button>
 
-          <button className="w-full max-w-[200px] py-3 bg-red-500 text-white mt-2 rounded-md hover:transition-all hover:bg-red-600">
+          <button className="w-full max-w-[200px] py-3 bg-red-400 text-white mt-2 rounded-md hover:transition-all hover:bg-red-500">
             Deletar conta
           </button>
         </div>
