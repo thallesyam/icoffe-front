@@ -1,6 +1,6 @@
 export function QuantityChanger() {
   return (
-    <div className="px-2 py-3 bg-purple-50 w-[72px] max-h-[38px] rounded-md flex items-center justify-between">
+    <div className="px-2 py-3 bg-purple-50 w-[72px] h-full max-h-[38px] rounded-md flex items-center justify-between">
       <button>
         <svg
           width="14"

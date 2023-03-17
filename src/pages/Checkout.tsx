@@ -1,4 +1,5 @@
 import { Header } from '@/components/Header'
+import { Order } from '@/components/Order'
 import { PaymentInfo } from '@/components/PaymentInfo'
 
 export function Checkout() {
@@ -8,7 +9,7 @@ export function Checkout() {
 
       <section className="flex item-center gap-8 w-full">
         <PaymentInfo />
-        {/* <Order /> */}
+        <Order />
       </section>
     </main>
   )

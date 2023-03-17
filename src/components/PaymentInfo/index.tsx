@@ -1,12 +1,18 @@
-import { MapPinLine, CurrencyDollar, CreditCard } from 'phosphor-react'
+import {
+  MapPinLine,
+  CurrencyDollar,
+  CreditCard,
+  Bank,
+  Money,
+} from 'phosphor-react'
 import { Input } from '@/components/Input'
 
 export function PaymentInfo() {
   const selected = 'credit'
 
   return (
-    <section className="w-full">
-      <h2 className="font-extrabold font-cursive text-[2rem] text-gray-800 mb-11">
+    <section className="w-full max-w-[640px]">
+      <h2 className="font-extrabold font-cursive text-[2rem] text-gray-800 mb-4">
         Complete seu pedido
       </h2>
 
@@ -91,7 +97,7 @@ export function PaymentInfo() {
             `}
           >
             <CreditCard size={22} className="text-purple-500" />
-            <span className="text-xs font-normal text-gray-700 uppercase">
+            <span className="text-[11px] font-normal text-gray-700 uppercase">
               Cartão de crédito
             </span>
           </button>
@@ -102,8 +108,8 @@ export function PaymentInfo() {
               ${selected === 'debit' && 'border border-purple-500'}
             `}
           >
-            <CreditCard size={22} className="text-purple-500" />
-            <span className="text-xs font-normal text-gray-700 uppercase">
+            <Bank size={22} className="text-purple-500" />
+            <span className="text-[11px] font-normal text-gray-700 uppercase">
               Cartão de débito
             </span>
           </button>
@@ -114,8 +120,8 @@ export function PaymentInfo() {
               ${selected === 'money' && 'border border-purple-500'}
             `}
           >
-            <CreditCard size={22} className="text-purple-500" />
-            <span className="text-xs font-normal text-gray-700 uppercase">
+            <Money size={22} className="text-purple-500" />
+            <span className="text-[11px] font-normal text-gray-700 uppercase">
               Dinheiro
             </span>
           </button>
