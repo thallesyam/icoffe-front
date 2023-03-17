@@ -2,7 +2,7 @@ import { ShoppingCart, Timer, Package, Coffee } from 'phosphor-react'
 
 export function HeroSection() {
   return (
-    <section className="flex justify-between items-center gap-14 mt-24">
+    <section className="flex justify-between items-center gap-14 my-24">
       <div>
         <article className="flex flex-col gap-4 max-w-[580px] mb-16">
           <h1 className="font-cursive text-5xl font-extrabold text-gray-900">
