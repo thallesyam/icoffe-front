@@ -1,11 +1,35 @@
+import { api } from '@/service/api'
 import { Plus } from 'phosphor-react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CompanyProfile } from '../CompanyProfile'
 import { ProductCard } from '../ProductCard'
 import { UserProfile } from '../UserProfile'
 
+type ProductsProps = {
+  imageUrl: string
+  name: string
+  description: string
+  id: string
+  company: {
+    companyName: string
+  }
+  price: number
+}
+
 export function ProfileInfo() {
   const isCompanyProfile = true
+  const [products, setProducts] = useState<ProductsProps[]>([])
+
+  useEffect(() => {
+    if (!isCompanyProfile) return
+
+    api
+      .get(`/product/2eb95729-dbdf-4eda-95df-d5d61a87d293`)
+      .then((response) => {
+        setProducts(response.data?.product)
+      })
+  }, [])
 
   return (
     <section className="w-full">
@@ -37,14 +61,19 @@ export function ProfileInfo() {
             </div>
 
             <section className="grid grid-cols-4 items-center gap-8 mt-11">
-              <ProductCard
-                company="starbucks"
-                title="Expresso Tradicional"
-                price={9.9}
-                imageUrl="/coffee-placeholder.png"
-                description="O tradicional café feito com água quente e grãos moídos"
-                isProfilePage
-              />
+              {products?.map((product) => {
+                return (
+                  <ProductCard
+                    productId={product.id}
+                    company={product.company.companyName}
+                    name={product.name}
+                    price={product.price}
+                    imageUrl={product.imageUrl}
+                    description={product.description}
+                    isProfilePage
+                  />
+                )
+              })}
             </section>
           </section>
         </section>
