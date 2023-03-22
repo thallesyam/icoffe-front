@@ -105,7 +105,6 @@ export function PaymentInfo() {
           <button
             className={`
             bg-[#E6E5E5] p-4  flex items-center gap-3 rounded-md hover:bg-gray-300 hover:transition-all focus:outline-purple-500 
-              ${selected === 'debit' && 'border border-purple-500'}
             `}
           >
             <Bank size={22} className="text-purple-500" />
@@ -117,7 +116,6 @@ export function PaymentInfo() {
           <button
             className={`
               bg-[#E6E5E5] p-4  flex items-center gap-3 rounded-md hover:bg-gray-300 hover:transition-all focus:outline-purple-500 
-              ${selected === 'money' && 'border border-purple-500'}
             `}
           >
             <Money size={22} className="text-purple-500" />
