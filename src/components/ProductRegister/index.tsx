@@ -1,8 +1,11 @@
-import { Input } from '@/components/Input'
-import { api } from '@/service/api'
 import { FormEvent, useState } from 'react'
+import { api } from '@/service/api'
+import { CompanyProps, useUser } from '@/contexts/UserContext'
+import { Input } from '@/components/Input'
 
 export function ProductRegister() {
+  const { user } = useUser()
+  const company = user as unknown as CompanyProps
   const [imageUrl, setImageUrl] = useState('')
   const [name, setName] = useState('')
   const [price, setPrice] = useState('')
@@ -19,9 +22,11 @@ export function ProductRegister() {
       imageUrl,
       name,
       description,
-      ownerId: '2eb95729-dbdf-4eda-95df-d5d61a87d293',
+      ownerId: company.id,
       price: Number(price),
     })
+
+    window.location.href = '/'
   }
 
   return (

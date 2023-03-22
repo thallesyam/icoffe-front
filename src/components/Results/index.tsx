@@ -1,6 +1,6 @@
+import { useEffect, useState } from 'react'
 import { ProductCard, ProductCardProps } from '@/components/ProductCard'
 import { api } from '@/service/api'
-import { useEffect, useState } from 'react'
 
 type ProductsProps = {
   imageUrl: string
@@ -37,6 +37,7 @@ export function Results({ title = 'Nossos Cafés' }: ResultsProps) {
         {products?.map((product) => {
           return (
             <ProductCard
+              key={product.id}
               productId={product.id}
               company={product.company.companyName}
               name={product.name}

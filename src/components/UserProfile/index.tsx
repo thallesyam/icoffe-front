@@ -1,32 +1,48 @@
+import { FormEvent, useEffect, useState } from 'react'
 import { CloudCheck } from 'phosphor-react'
-import { Input } from '@/components/Input'
-import { FormEvent, useState } from 'react'
 import { api } from '@/service/api'
+import { Input } from '@/components/Input'
+import { useUser } from '@/contexts/UserContext'
+import { destroyCookie, setCookie } from 'nookies'
 
 export function UserProfile() {
+  const { user, isLogged } = useUser()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [cpf, setCpf] = useState('')
 
+  useEffect(() => {
+    if (!user) return
+    setName(user.name)
+    setEmail(user.email)
+    setPhone(user.phone)
+    setCpf(user.cpf)
+  }, [user])
+
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
 
-    if (!name || !email || !cpf || !phone) {
-      return
-    }
-
-    await api.put('/user', {
-      id: 'fc513a26-9ee9-468a-a3e6-6e87c72ad636',
+    const { data } = await api.put('/user', {
+      id: user?.id,
       name,
       email,
       phone,
       cpf,
     })
+    setCookie(null, '@icoffee:user', JSON.stringify(data.user))
+
+    window.location.href = '/'
   }
 
   async function handleDeleteUser() {
-    await api.delete(`/user/1c7ad4ec-b8ff-475f-8dc8-6fee334f886a`)
+    await api.delete(`/user/${user?.id}`)
+    destroyCookie(null, '@icoffee:user')
+    window.location.href = '/'
+  }
+
+  if (!isLogged) {
+    window.location.href = '/'
   }
 
   return (

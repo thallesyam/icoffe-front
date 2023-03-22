@@ -1,9 +1,13 @@
+import { FormEvent, useEffect, useState } from 'react'
 import { CloudCheck } from 'phosphor-react'
-import { Input } from '@/components/Input'
-import { FormEvent, useState } from 'react'
 import { api } from '@/service/api'
+import { CompanyProps, useUser } from '@/contexts/UserContext'
+import { Input } from '@/components/Input'
+import { destroyCookie, setCookie } from 'nookies'
 
 export function CompanyProfile() {
+  const { user, isLogged } = useUser()
+  const company = user as unknown as CompanyProps
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [companyName, setCompanyName] = useState('')
@@ -15,26 +19,27 @@ export function CompanyProfile() {
   const [number, setNumber] = useState('')
   const [neighborhood, setNeighborhood] = useState('')
 
+  useEffect(() => {
+    if (!company) return
+    setName(company.ownerName)
+    setEmail(company.ownerEmail)
+    setCompanyName(company.companyName)
+    setPhone(company.phone)
+    setCity(company.companyCity)
+    setCnpj(company.companyCnpj)
+    setCep(company.companyCep)
+    setStreet(company.companyStreet)
+    setNumber(company.companyNumber)
+    setNeighborhood(company.companyNeighborhood)
+  }, [company])
+
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
 
-    if (
-      !name ||
-      !email ||
-      !companyName ||
-      !phone ||
-      !city ||
-      !cnpj ||
-      !cep ||
-      !street ||
-      !number ||
-      !neighborhood
-    ) {
-      return
-    }
-
-    await api.put('/company', {
-      id: '2eb95729-dbdf-4eda-95df-d5d61a87d293',
+    const {
+      data: { company },
+    } = await api.put('/company', {
+      id: user?.id,
       ownerName: name,
       ownerEmail: email,
       companyName,
@@ -46,10 +51,17 @@ export function CompanyProfile() {
       companyNumber: number,
       companyNeighborhood: neighborhood,
     })
+    setCookie(null, '@icoffee:user', JSON.stringify(company))
   }
 
   async function handleDeleteCompany() {
-    await api.delete(`/company/3fc0328e-0df9-4034-b384-4b070356526a`)
+    await api.delete(`/company/${user?.id}`)
+    destroyCookie(null, '@icoffee:user')
+    window.location.href = '/'
+  }
+
+  if (!isLogged) {
+    window.location.href = '/'
   }
 
   return (

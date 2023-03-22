@@ -1,10 +1,13 @@
-import { MapPin, User, Bank } from 'phosphor-react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Minicart } from '@/components/Minicart'
+import { User, Bank, SignOut } from 'phosphor-react'
+import { destroyCookie } from 'nookies'
+import { Link, useLocation } from 'react-router-dom'
 import { getGoogleUrl } from '@/service/getUrlFromGoogle'
+import { Minicart } from '@/components/Minicart'
+import { useUser } from '@/contexts/UserContext'
 
 export function Header() {
-  const hasUser = false
+  const { user } = useUser()
+  const hasUser = !!user
   const location = useLocation()
 
   function handleLoginWithCompany() {
@@ -20,6 +23,11 @@ export function Header() {
       ((location.state as any)?.from.pathname as string) || '/profile'
 
     window.location.href = getGoogleUrl(from)
+  }
+
+  function handleLogout() {
+    destroyCookie(null, '@icoffee:user')
+    window.location.reload()
   }
 
   return (
@@ -52,16 +60,22 @@ export function Header() {
           </div>
         ) : (
           <div className="flex items-center gap-2">
-            <a
-              href="/profile"
+            <Link
+              to="/profile"
+              title="Perfil"
               className="bg-purple-50 p-2 flex items-center gap-1 rounded-md hover:opacity-90 hover:transition-all"
             >
-              <MapPin size={22} weight="fill" className="text-purple-500" />
-              <p className="text-purple-900 font-normal text-sm ">
-                São Paulo, SP
-              </p>
-            </a>
+              <User size={22} weight="fill" className="text-purple-500" />
+              <p className="text-purple-500 font-normal text-sm ">Perfil</p>
+            </Link>
             <Minicart />
+            <button
+              title="Sair"
+              onClick={handleLogout}
+              className="bg-purple-50 p-2 flex items-center gap-1 rounded-md hover:opacity-90 hover:transition-all"
+            >
+              <SignOut size={22} weight="fill" className="text-purple-500" />
+            </button>
           </div>
         )}
       </div>

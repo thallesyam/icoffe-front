@@ -1,5 +1,5 @@
 import { Trash } from 'phosphor-react'
-import { QuantityChanger } from '../QuantityChanger'
+import { QuantityChanger } from '@/components/QuantityChanger'
 
 type OrderCardProps = {
   imageUrl: string

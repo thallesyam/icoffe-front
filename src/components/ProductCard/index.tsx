@@ -1,7 +1,7 @@
 import { ShoppingCart } from 'phosphor-react'
-import { QuantityChanger } from '@/components/QuantityChanger'
-import { api } from '@/service/api'
 import { Link } from 'react-router-dom'
+import { api } from '@/service/api'
+import { QuantityChanger } from '@/components/QuantityChanger'
 
 export type ProductCardProps = {
   imageUrl: string
@@ -23,7 +23,8 @@ export function ProductCard({
   isProfilePage = false,
 }: ProductCardProps) {
   async function handleDeleteProduct() {
-    await api.delete(`/product/fc4f740c-9a74-495c-b1d9-5e6de946f148`)
+    await api.delete(`/product/${productId}`)
+    window.location.href = '/'
   }
 
   return (

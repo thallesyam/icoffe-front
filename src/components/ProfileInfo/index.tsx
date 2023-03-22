@@ -1,10 +1,11 @@
-import { api } from '@/service/api'
-import { Plus } from 'phosphor-react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { CompanyProfile } from '../CompanyProfile'
-import { ProductCard } from '../ProductCard'
-import { UserProfile } from '../UserProfile'
+import { Plus } from 'phosphor-react'
+import { api } from '@/service/api'
+import { useUser } from '@/contexts/UserContext'
+import { CompanyProfile } from '@/components/CompanyProfile'
+import { ProductCard } from '@/components/ProductCard'
+import { UserProfile } from '@/components/UserProfile'
 
 type ProductsProps = {
   imageUrl: string
@@ -18,18 +19,18 @@ type ProductsProps = {
 }
 
 export function ProfileInfo() {
-  const isCompanyProfile = true
+  const { user } = useUser()
+
+  const isCompanyProfile = !!user && Object.hasOwn(user, 'companyName')
   const [products, setProducts] = useState<ProductsProps[]>([])
 
   useEffect(() => {
     if (!isCompanyProfile) return
 
-    api
-      .get(`/product/2eb95729-dbdf-4eda-95df-d5d61a87d293`)
-      .then((response) => {
-        setProducts(response.data?.product)
-      })
-  }, [])
+    api.get(`/product/company/${user.id}`).then((response) => {
+      setProducts(response.data?.product)
+    })
+  }, [user])
 
   return (
     <section className="w-full">
@@ -64,6 +65,7 @@ export function ProfileInfo() {
               {products?.map((product) => {
                 return (
                   <ProductCard
+                    key={product.id}
                     productId={product.id}
                     company={product.company.companyName}
                     name={product.name}

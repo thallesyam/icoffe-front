@@ -1,12 +1,37 @@
-import { Input } from '@/components/Input'
+import { FormEvent, useEffect, useState } from 'react'
 import { api } from '@/service/api'
-import { FormEvent, useState } from 'react'
+import { CompanyProps, useUser } from '@/contexts/UserContext'
+import { Input } from '@/components/Input'
+
+export type ProductProps = {
+  imageUrl: string
+  name: string
+  description: string
+  ownerId: string
+  price: number
+}
 
 export function ProductEdit() {
+  const { user } = useUser()
+  const company = user as unknown as CompanyProps
+  const productId = window.location.pathname.split('/edit/')?.[1]
   const [imageUrl, setImageUrl] = useState('')
   const [name, setName] = useState('')
-  const [price, setPrice] = useState('')
+  const [price, setPrice] = useState(0)
   const [description, setDescription] = useState('')
+
+  useEffect(() => {
+    if (!productId) return
+
+    api.get(`/product/${productId}`).then((response) => {
+      const { product } = response.data as { product: ProductProps }
+
+      setImageUrl(product.imageUrl)
+      setName(product.name)
+      setPrice(product.price)
+      setDescription(product.description)
+    })
+  }, [productId])
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
@@ -19,10 +44,12 @@ export function ProductEdit() {
       imageUrl,
       name,
       description,
-      ownerId: '2eb95729-dbdf-4eda-95df-d5d61a87d293',
-      productId: 'fc4f740c-9a74-495c-b1d9-5e6de946f148',
+      ownerId: company.id,
+      productId,
       price: Number(price),
     })
+
+    window.location.href = '/'
   }
 
   return (
@@ -55,9 +82,10 @@ export function ProductEdit() {
             <Input.Root>
               <Input.Input
                 name="price"
+                type="number"
                 placeholder="Preço da unidade"
                 value={price}
-                onChange={(event) => setPrice(event.target.value)}
+                onChange={(event) => setPrice(Number(event.target.value))}
               />
             </Input.Root>
           </div>

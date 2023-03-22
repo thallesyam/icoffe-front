@@ -1,7 +1,4 @@
-import { Plus } from 'phosphor-react'
-import { Link } from 'react-router-dom'
 import { Header } from '@/components/Header'
-import { ProductCard } from '@/components/ProductCard'
 import { ProfileInfo } from '@/components/ProfileInfo'
 
 export function Profile() {
