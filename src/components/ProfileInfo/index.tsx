@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Plus } from 'phosphor-react'
 import { api } from '@/service/api'
-import { useUser } from '@/contexts/UserContext'
+import { CompanyProps, useUser } from '@/contexts/UserContext'
 import { CompanyProfile } from '@/components/CompanyProfile'
 import { ProductCard } from '@/components/ProductCard'
 import { UserProfile } from '@/components/UserProfile'
@@ -20,6 +20,7 @@ type ProductsProps = {
 
 export function ProfileInfo() {
   const { user } = useUser()
+  const company = user as unknown as CompanyProps
 
   const isCompanyProfile = !!user && Object.hasOwn(user, 'companyName')
   const [products, setProducts] = useState<ProductsProps[]>([])
@@ -51,7 +52,7 @@ export function ProfileInfo() {
               </h2>
 
               <Link
-                to={`/starbucks/new/product`}
+                to={`/${company}/new/product`}
                 className="bg-purple-500 p-2 max-h-8 flex items-center gap-1 rounded-md hover:bg-purple-900 hover:transition-all focus:outline-purple-500 uppercase"
               >
                 <Plus size={16} className="text-white" />

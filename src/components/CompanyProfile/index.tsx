@@ -52,6 +52,7 @@ export function CompanyProfile() {
       companyNeighborhood: neighborhood,
     })
     setCookie(null, '@icoffee:user', JSON.stringify(company))
+    window.location.href = '/'
   }
 
   async function handleDeleteCompany() {

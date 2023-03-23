@@ -1,4 +1,4 @@
-const dev = false
+const dev = true
 const env = dev ? 'http://localhost:5000' : 'https://icoffee.onrender.com'
 
 export const getGoogleUrl = (from: string) => {
