@@ -9,8 +9,7 @@ export function HeroSection() {
             Encontre o café perfeito para qualquer hora do dia
           </h1>
           <p className="text-xl text-gray-800 font-normal">
-            Com o Coffee Delivery você recebe seu café onde estiver, a qualquer
-            hora
+            Com o ICoffee você recebe seu café onde estiver, a qualquer hora
           </p>
         </article>
 
