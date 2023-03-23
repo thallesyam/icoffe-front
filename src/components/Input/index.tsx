@@ -28,6 +28,7 @@ function InputInput(props: InputInputProps) {
   return (
     <input
       {...props}
+      autoComplete="off"
       className="bg-transparent flex-1 text-gray-700 text-xs placeholder:text-[#8D8686] outline-none"
     />
   )
