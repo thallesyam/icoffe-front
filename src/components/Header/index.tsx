@@ -1,12 +1,10 @@
 import { User, Bank, SignOut } from 'phosphor-react'
-import { destroyCookie } from 'nookies'
 import { Link, useLocation } from 'react-router-dom'
-import { getGoogleUrl } from '@/service/getUrlFromGoogle'
 import { Minicart } from '@/components/Minicart'
 import { useUser } from '@/contexts/UserContext'
 
 export function Header() {
-  const { user } = useUser()
+  const { user, handleLoginWithGoogle } = useUser()
   const hasUser = !!user
   const location = useLocation()
 
@@ -15,18 +13,19 @@ export function Header() {
       ((location.state as any)?.from.pathname as string) ||
       '/profile?type=company'
 
-    window.location.href = getGoogleUrl(from)
+    handleLoginWithGoogle(from)
   }
 
   function handleLoginWithUser() {
     const from =
       ((location.state as any)?.from.pathname as string) || '/profile'
 
-    window.location.href = getGoogleUrl(from)
+    handleLoginWithGoogle(from)
+    console.log('olá')
   }
 
   function handleLogout() {
-    destroyCookie(null, '@icoffee:user')
+    localStorage.removeItem('@icoffee:user')
     window.location.reload()
   }
 

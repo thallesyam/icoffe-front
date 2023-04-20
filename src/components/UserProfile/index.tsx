@@ -30,14 +30,13 @@ export function UserProfile() {
       phone,
       cpf,
     })
-    setCookie(null, '@icoffee:user', JSON.stringify(data.user))
-
+    localStorage.setItem('@icoffee:user', JSON.stringify(data.user))
     window.location.href = '/'
   }
 
   async function handleDeleteUser() {
     await api.delete(`/user/${user?.id}`)
-    destroyCookie(null, '@icoffee:user')
+    localStorage.removeItem('@icoffee:user')
     window.location.href = '/'
   }
 

@@ -3,7 +3,6 @@ import { CloudCheck } from 'phosphor-react'
 import { api } from '@/service/api'
 import { CompanyProps, useUser } from '@/contexts/UserContext'
 import { Input } from '@/components/Input'
-import { destroyCookie, setCookie } from 'nookies'
 
 export function CompanyProfile() {
   const { user, isLogged } = useUser()
@@ -51,13 +50,13 @@ export function CompanyProfile() {
       companyNumber: number,
       companyNeighborhood: neighborhood,
     })
-    setCookie(null, '@icoffee:user', JSON.stringify(company))
+    localStorage.setItem('@icoffee:user', JSON.stringify(company))
     window.location.href = '/'
   }
 
   async function handleDeleteCompany() {
     await api.delete(`/company/${user?.id}`)
-    destroyCookie(null, '@icoffee:user')
+    localStorage.removeItem('@icoffee:user')
     window.location.href = '/'
   }
 
