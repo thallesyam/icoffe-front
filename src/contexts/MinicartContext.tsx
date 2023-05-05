@@ -1,4 +1,4 @@
-import { parseCookies } from 'nookies'
+import { parseCookies, setCookie } from 'nookies'
 import {
   createContext,
   ReactNode,
@@ -8,11 +8,18 @@ import {
 } from 'react'
 
 type CartProps = {
-  id: string
+  name: string
+  productId: string
+  unitPrice: number
+  description: string
+  imageUrl: string
+  company: string
+  quantity: number
 }
 
 type CartContextProps = {
-  cart: any | undefined
+  cartItems: CartProps[]
+  total: number
   handleAddItemsOnCart: (cart: CartProps) => void
   handleDeleteCartItems: (itemId: string) => void
   handleUpdateCartItemQuantity: (
@@ -28,15 +35,18 @@ type Props = {
 export const CartContext = createContext({} as CartContextProps)
 
 export function CartProvider({ children }: Props) {
-  const [cart, setCart] = useState<any | undefined>(undefined)
+  const [cart, setCart] = useState<CartProps[]>([])
+  const [total, setTotal] = useState(0)
   const cartItems = parseCookies(null, '@icoffee:cart')['@icoffee:cart']
 
   function handleAddItemsOnCart(cart: CartProps) {
-    setCart((prevProps: any) => [...prevProps, cart])
+    setCart((prevProps: CartProps[]) => [...prevProps, cart])
   }
 
   function handleDeleteCartItems(itemId: string) {
-    const cartItems = cart.filter((cart: CartProps) => cart.id !== itemId)
+    const cartItems = cart.filter(
+      (cart: CartProps) => cart.productId !== itemId
+    )
     setCart(cartItems)
   }
 
@@ -44,7 +54,7 @@ export function CartProvider({ children }: Props) {
     itemId: string,
     type: 'increment' | 'decrement'
   ) {
-    const item = cart.find((cart: CartProps) => cart.id === itemId)
+    const item = cart.find((cart: CartProps) => cart.productId === itemId)
     if (!item) return
     setCart((prevProps: any) => {
       return [
@@ -60,16 +70,29 @@ export function CartProvider({ children }: Props) {
     })
   }
 
+  function calcTotal() {
+    let total = 0
+    cart.map((item) => {
+      total = item.unitPrice * item.quantity
+    })
+    setTotal(total + 5)
+  }
+
   useEffect(() => {
-    const items = parseCookies(null, '@icoffee:cart')['@icoffee:cart']
-    if (!items) return
     setCart(JSON.parse(cartItems))
+    calcTotal()
   }, [])
+
+  useEffect(() => {
+    setCookie(null, '@icoffee:cart', JSON.stringify(cart))
+    calcTotal()
+  }, [cart])
 
   return (
     <CartContext.Provider
       value={{
-        cart,
+        cartItems: cart,
+        total,
         handleAddItemsOnCart,
         handleDeleteCartItems,
         handleUpdateCartItemQuantity,

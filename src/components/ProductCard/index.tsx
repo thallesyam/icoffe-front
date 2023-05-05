@@ -2,6 +2,8 @@ import { ShoppingCart } from 'phosphor-react'
 import { Link } from 'react-router-dom'
 import { api } from '@/service/api'
 import { QuantityChanger } from '@/components/QuantityChanger'
+import { useState } from 'react'
+import { useCart } from '@/contexts/MinicartContext'
 
 export type ProductCardProps = {
   imageUrl: string
@@ -22,6 +24,32 @@ export function ProductCard({
   name,
   isProfilePage = false,
 }: ProductCardProps) {
+  const { handleAddItemsOnCart } = useCart()
+  const [quantity, setQuantity] = useState(1)
+
+  function handleAddOnCart() {
+    const cart = {
+      name,
+      productId,
+      imageUrl,
+      unitPrice: price,
+      description,
+      company,
+      quantity,
+    }
+    handleAddItemsOnCart(cart)
+  }
+
+  function handleChangeItemQuantity(
+    action: 'increase' | 'decrease' = 'increase'
+  ) {
+    const validateQuantityIfDecrease = quantity <= 1 ? quantity : quantity - 1
+    const calc =
+      action === 'increase' ? quantity + 1 : validateQuantityIfDecrease
+
+    setQuantity(calc)
+  }
+
   async function handleDeleteProduct() {
     await api.delete(`/product/${productId}`)
     window.location.href = '/'
@@ -74,9 +102,15 @@ export function ProductCard({
               </span>
             </p>
             <div className="flex items center gap-2">
-              <QuantityChanger />
+              <QuantityChanger
+                quantity={quantity}
+                handleChangeItemQuantity={handleChangeItemQuantity}
+              />
 
-              <button className="p-2 bg-purple-900 rounded-md hover:bg-purple-500 hover:transition-all max-w-[38px] max-h-[38px]">
+              <button
+                className="p-2 bg-purple-900 rounded-md hover:bg-purple-500 hover:transition-all max-w-[38px] max-h-[38px]"
+                onClick={handleAddOnCart}
+              >
                 <ShoppingCart size={22} weight="fill" className="text-white" />
               </button>
             </div>

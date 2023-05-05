@@ -1,6 +1,13 @@
 import { OrderCard } from '@/components/OrderCard'
+import { useCart } from '@/contexts/MinicartContext'
 
 export function Order() {
+  const { cartItems, total } = useCart()
+  const format = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(total)
+
   return (
     <section className="w-full max-w-[448px]">
       <h2 className="font-extrabold font-cursive text-[2rem] text-gray-800 mb-4">
@@ -8,23 +15,16 @@ export function Order() {
       </h2>
 
       <div className="p-10 bg-gray-50 rounded-[44px] rounded-tl-sm w-full mb-3 flex flex-col justify-center">
-        <OrderCard
-          imageUrl="/coffee-placeholder.png"
-          title="Expresso Tradicional"
-          price={9.9}
-        />
-        <OrderCard
-          imageUrl="/coffee-placeholder.png"
-          title="Expresso Tradicional"
-          price={9.9}
-        />
-
+        {cartItems.map((item) => (
+          <OrderCard
+            key={item.productId}
+            imageUrl={item.imageUrl}
+            quantity={item.quantity}
+            title={item.name}
+            price={item.unitPrice}
+          />
+        ))}
         <div className="w-full flex flex-col gap-3">
-          <div className="flex justify-between items-center">
-            <p className="text-gray-700 text-sm">Total de itens</p>
-            <p className="text-gray-700 text-base">R$ 29,70</p>
-          </div>
-
           <div className="flex justify-between items-center">
             <p className="text-gray-700 text-sm">Entrega</p>
             <p className="text-gray-700 text-base">R$ 3,50</p>
@@ -32,7 +32,7 @@ export function Order() {
 
           <div className="flex justify-between items-center">
             <p className="text-gray-500 text-xl font-bold">Total</p>
-            <p className="text-gray-500 text-xl font-bold">R$ 33,20</p>
+            <p className="text-gray-500 text-xl font-bold">{format}</p>
           </div>
         </div>
 

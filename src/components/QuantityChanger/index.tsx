@@ -1,7 +1,15 @@
-export function QuantityChanger() {
+type QuantityChangerProps = {
+  quantity: number
+  handleChangeItemQuantity: (action?: 'increase' | 'decrease') => void
+}
+
+export function QuantityChanger({
+  handleChangeItemQuantity,
+  quantity,
+}: QuantityChangerProps) {
   return (
     <div className="px-2 py-3 bg-purple-50 w-[72px] h-full max-h-[38px] rounded-md flex items-center justify-between">
-      <button>
+      <button onClick={() => handleChangeItemQuantity('decrease')}>
         <svg
           width="14"
           height="14"
@@ -18,9 +26,9 @@ export function QuantityChanger() {
         </svg>
       </button>
 
-      <span className="text-gray-900 text-base">1</span>
+      <span className="text-gray-900 text-base">{quantity}</span>
 
-      <button>
+      <button onClick={() => handleChangeItemQuantity()}>
         <svg
           width="14"
           height="14"

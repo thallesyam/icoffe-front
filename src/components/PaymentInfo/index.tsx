@@ -1,15 +1,7 @@
-import {
-  MapPinLine,
-  CurrencyDollar,
-  CreditCard,
-  Bank,
-  Money,
-} from 'phosphor-react'
+import { MapPinLine } from 'phosphor-react'
 import { Input } from '@/components/Input'
 
 export function PaymentInfo() {
-  const selected = 'credit'
-
   return (
     <section className="w-full max-w-[640px]">
       <h2 className="font-extrabold font-cursive text-[2rem] text-gray-800 mb-4">
@@ -74,55 +66,6 @@ export function PaymentInfo() {
               </Input.Root>
             </div>
           </div>
-        </section>
-      </div>
-
-      <div className="p-10 bg-gray-50 rounded-md w-full">
-        <div className="flex items-start gap-2 mb-8">
-          <CurrencyDollar size={22} className="text-purple-500" />
-
-          <div className="flex flex-col gap-1">
-            <p className="text-base text-gray-800">Pagamento</p>
-            <span className="text-xs text-gray-700">
-              O pagamento é feito na entrega. Escolha a forma que deseja pagar
-            </span>
-          </div>
-        </div>
-
-        <section className="grid grid-cols-3 items-center gap-3">
-          <button
-            className={`
-              bg-[#E6E5E5] p-4  flex items-center gap-3 rounded-md hover:bg-gray-300 hover:transition-all focus:outline-purple-500 
-              ${selected === 'credit' && 'border border-purple-500'}
-            `}
-          >
-            <CreditCard size={22} className="text-purple-500" />
-            <span className="text-[11px] font-normal text-gray-700 uppercase">
-              Cartão de crédito
-            </span>
-          </button>
-
-          <button
-            className={`
-            bg-[#E6E5E5] p-4  flex items-center gap-3 rounded-md hover:bg-gray-300 hover:transition-all focus:outline-purple-500 
-            `}
-          >
-            <Bank size={22} className="text-purple-500" />
-            <span className="text-[11px] font-normal text-gray-700 uppercase">
-              Cartão de débito
-            </span>
-          </button>
-
-          <button
-            className={`
-              bg-[#E6E5E5] p-4  flex items-center gap-3 rounded-md hover:bg-gray-300 hover:transition-all focus:outline-purple-500 
-            `}
-          >
-            <Money size={22} className="text-purple-500" />
-            <span className="text-[11px] font-normal text-gray-700 uppercase">
-              Dinheiro
-            </span>
-          </button>
         </section>
       </div>
     </section>
