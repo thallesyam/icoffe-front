@@ -1,7 +1,14 @@
 import { MapPinLine } from 'phosphor-react'
+import { UseFormRegister, FieldErrors } from 'react-hook-form/dist/types'
 import { Input } from '@/components/Input'
+import { IOrderForm } from '@/pages/Checkout'
 
-export function PaymentInfo() {
+type Props = {
+  register: UseFormRegister<IOrderForm>
+  errors: FieldErrors<IOrderForm>
+}
+
+export function PaymentInfo({ register, errors }: Props) {
   return (
     <section className="w-full max-w-[640px]">
       <h2 className="font-extrabold font-cursive text-[2rem] text-gray-800 mb-4">
@@ -23,47 +30,92 @@ export function PaymentInfo() {
         <section className="flex flex-col gap-4">
           <div className="max-w-[200px]">
             <Input.Root>
-              <Input.Input name="cep" placeholder="CEP" />
+              <Input.Input {...register('cep')} name="cep" placeholder="CEP" />
             </Input.Root>
+            {errors?.cep && (
+              <p className="text-xs text-red-500">{errors?.cep.message}</p>
+            )}
           </div>
 
           <div>
             <Input.Root>
-              <Input.Input name="street" placeholder="Rua" />
+              <Input.Input
+                {...register('street')}
+                name="street"
+                placeholder="Rua"
+              />
             </Input.Root>
+            {errors?.street && (
+              <p className="text-xs text-red-500">{errors?.street.message}</p>
+            )}
           </div>
 
           <div className="flex gap-3 w-full">
             <div className="w-full max-w-[200px]">
               <Input.Root>
-                <Input.Input name="number" placeholder="Número" />
+                <Input.Input
+                  {...register('number')}
+                  name="number"
+                  placeholder="Número"
+                />
               </Input.Root>
+              {errors?.number && (
+                <p className="text-xs text-red-500">{errors?.number.message}</p>
+              )}
             </div>
 
             <div className="w-full">
               <Input.Root>
-                <Input.Input name="complement" placeholder="Complemento" />
+                <Input.Input
+                  {...register('complement')}
+                  name="complement"
+                  placeholder="Complemento"
+                />
               </Input.Root>
+              {errors?.complement && (
+                <p className="text-xs text-red-500">
+                  {errors?.complement.message}
+                </p>
+              )}
             </div>
           </div>
 
           <div className="flex gap-3 w-full">
             <div className="w-full max-w-[200px]">
               <Input.Root>
-                <Input.Input name="neighborhood" placeholder="Bairro" />
+                <Input.Input
+                  {...register('neighborhood')}
+                  name="neighborhood"
+                  placeholder="Bairro"
+                />
               </Input.Root>
+              {errors?.neighborhood && (
+                <p className="text-xs text-red-500">
+                  {errors?.neighborhood.message}
+                </p>
+              )}
             </div>
 
             <div className="w-full">
               <Input.Root>
-                <Input.Input name="city" placeholder="Cidade" />
+                <Input.Input
+                  {...register('city')}
+                  name="city"
+                  placeholder="Cidade"
+                />
               </Input.Root>
+              {errors?.city && (
+                <p className="text-xs text-red-500">{errors?.city.message}</p>
+              )}
             </div>
 
             <div className="w-full max-w-[60px]">
               <Input.Root>
-                <Input.Input name="uf" placeholder="UF" />
+                <Input.Input {...register('uf')} name="uf" placeholder="UF" />
               </Input.Root>
+              {errors?.uf && (
+                <p className="text-xs text-red-500">{errors?.uf.message}</p>
+              )}
             </div>
           </div>
         </section>

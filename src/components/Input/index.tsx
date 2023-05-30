@@ -1,5 +1,10 @@
 import { Slot } from '@radix-ui/react-slot'
-import { InputHTMLAttributes, ReactNode } from 'react'
+import {
+  ForwardRefRenderFunction,
+  InputHTMLAttributes,
+  ReactNode,
+  forwardRef,
+} from 'react'
 
 export interface InputRootProps {
   children: ReactNode
@@ -24,10 +29,14 @@ function InputIcon({ children }: InputIconProps) {
 export interface InputInputProps
   extends InputHTMLAttributes<HTMLInputElement> {}
 
-function InputInput(props: InputInputProps) {
+const InputInput: ForwardRefRenderFunction<
+  HTMLInputElement,
+  InputInputProps
+> = (props, ref) => {
   return (
     <input
       {...props}
+      ref={ref}
       autoComplete="off"
       className="bg-transparent flex-1 text-gray-700 text-xs placeholder:text-[#8D8686] outline-none"
     />
@@ -40,6 +49,6 @@ InputIcon.displayName = 'Input.Icon'
 
 export const Input = {
   Root: InputRoot,
-  Input: InputInput,
+  Input: forwardRef(InputInput),
   Icon: InputIcon,
 }

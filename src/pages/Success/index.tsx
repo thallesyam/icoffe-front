@@ -20,6 +20,7 @@ export type ClientProps = {
 export function Success() {
   const [products, setProducts] = useState<ProductsProps[]>([])
   const [client, setClient] = useState<ClientProps | undefined>(undefined)
+  const [address, setAddress] = useState<string | undefined>(undefined)
   const [order, setOrder] = useState<any>(undefined)
   const defineGrid =
     products?.length > 3 ? 'grid-cols-3' : `grid-cols-${products.length}`
@@ -28,6 +29,10 @@ export function Success() {
 
   useEffect(() => {
     api.get(`/session/${checkoutId}`).then((response) => {
+      if (response.data.session.address) {
+        setAddress(response.data.session.address)
+      }
+
       setOrder(response.data.session)
       setProducts(response.data.session.products)
       setClient({
@@ -63,7 +68,8 @@ export function Success() {
             <p className="font-light max-w-[300px] text-center mb-20 text-gray-800 text-lg">
               Uhuul <b className="text-purple-900">{client?.clientName}</b>, seu
               produto <b className="text-purple-900">{product.name}</b> já está
-              a caminho da sua casa.
+              a caminho da sua casa. No endereço:{' '}
+              <b className="text-purple-900">{address}</b>
             </p>
           </section>
         ))}

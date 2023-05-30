@@ -1,4 +1,4 @@
-import { parseCookies, setCookie } from 'nookies'
+import { parseCookies, setCookie, destroyCookie } from 'nookies'
 import {
   createContext,
   ReactNode,
@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react'
 
-type CartProps = {
+export type CartProps = {
   name: string
   productId: string
   unitPrice: number
@@ -22,6 +22,7 @@ type CartContextProps = {
   total: number
   handleAddItemsOnCart: (cart: CartProps) => void
   handleDeleteCartItems: (itemId: string) => void
+  handleClearCart: () => void
   handleUpdateCartItemQuantity: (
     itemId: string,
     type: 'increment' | 'decrement'
@@ -41,6 +42,11 @@ export function CartProvider({ children }: Props) {
 
   function handleAddItemsOnCart(cart: CartProps) {
     setCart((prevProps: CartProps[]) => [...prevProps, cart])
+  }
+
+  function handleClearCart() {
+    setCart([])
+    destroyCookie(null, '@icoffee:cart')
   }
 
   function handleDeleteCartItems(itemId: string) {
@@ -85,8 +91,8 @@ export function CartProvider({ children }: Props) {
   }, [])
 
   useEffect(() => {
-    setCookie(null, '@icoffee:cart', JSON.stringify(cart))
     calcTotal()
+    setCookie(null, '@icoffee:cart', JSON.stringify(cart))
   }, [cart])
 
   return (
@@ -95,6 +101,7 @@ export function CartProvider({ children }: Props) {
         cartItems: cart,
         total,
         handleAddItemsOnCart,
+        handleClearCart,
         handleDeleteCartItems,
         handleUpdateCartItemQuantity,
       }}
