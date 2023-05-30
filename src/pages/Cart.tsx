@@ -23,6 +23,7 @@ export function Cart() {
             {cartItems.map((item) => (
               <OrderCard
                 key={item.productId}
+                productId={item.productId}
                 imageUrl={item.imageUrl}
                 quantity={item.quantity}
                 title={item.name}

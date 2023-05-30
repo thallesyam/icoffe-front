@@ -22,6 +22,7 @@ export function Order({ isValid }: Props) {
         {cartItems.map((item) => (
           <OrderCard
             key={item.productId}
+            productId={item.productId}
             imageUrl={item.imageUrl}
             quantity={item.quantity}
             title={item.name}

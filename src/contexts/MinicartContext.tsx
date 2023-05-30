@@ -63,8 +63,11 @@ export function CartProvider({ children }: Props) {
     const item = cart.find((cart: CartProps) => cart.productId === itemId)
     if (!item) return
     setCart((prevProps: any) => {
+      const oldArray = prevProps.filter(
+        (prev: any) => prev.productId !== item.productId
+      )
       return [
-        ...prevProps,
+        ...oldArray,
         {
           ...item,
           quantity:

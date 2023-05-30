@@ -1,10 +1,12 @@
 import { Trash } from 'phosphor-react'
 import { QuantityChanger } from '@/components/QuantityChanger'
 import { useState } from 'react'
+import { useCart } from '@/contexts/MinicartContext'
 
 type OrderCardProps = {
   imageUrl: string
   title: string
+  productId: string
   price: number
   quantity?: number
 }
@@ -12,18 +14,21 @@ type OrderCardProps = {
 export function OrderCard({
   imageUrl,
   title,
+  productId,
   quantity: cartQuantity,
   price,
 }: OrderCardProps) {
   const [quantity, setQuantity] = useState(cartQuantity ?? 1)
+  const { handleUpdateCartItemQuantity, handleDeleteCartItems } = useCart()
 
   function handleChangeItemQuantity(
-    action: 'increase' | 'decrease' = 'increase'
+    action: 'increment' | 'decrement' = 'increment'
   ) {
     const validateQuantityIfDecrease = quantity <= 1 ? quantity : quantity - 1
     const calc =
-      action === 'increase' ? quantity + 1 : validateQuantityIfDecrease
+      action === 'increment' ? quantity + 1 : validateQuantityIfDecrease
 
+    handleUpdateCartItemQuantity(productId, action)
     setQuantity(calc)
   }
 
@@ -39,7 +44,10 @@ export function OrderCard({
               quantity={quantity}
               handleChangeItemQuantity={handleChangeItemQuantity}
             />
-            <button className="bg-[#E6E5E5] p-2 max-h-8 flex items-center gap-1 rounded-md hover:bg-gray-300 hover:transition-all focus:outline-purple-500 uppercase">
+            <button
+              onClick={() => handleDeleteCartItems(productId)}
+              className="bg-[#E6E5E5] p-2 max-h-8 flex items-center gap-1 rounded-md hover:bg-gray-300 hover:transition-all focus:outline-purple-500 uppercase"
+            >
               <Trash size={16} className="text-purple-500" />
               <span className="text-gray-700 text-xs">Remover</span>
             </button>
