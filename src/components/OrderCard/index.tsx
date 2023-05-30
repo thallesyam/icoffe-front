@@ -30,7 +30,7 @@ export function OrderCard({
   return (
     <div className="flex items-start justify-between border-b border-[#E6E5E5] pb-6 mb-6">
       <div className="flex gap-5">
-        <img src={imageUrl} alt={title} className="w-16 h-16" />
+        <img src={imageUrl} alt={title} className="w-16 h-16 rounded" />
         <div>
           <p className="text-base text-gray-800">{title}</p>
 

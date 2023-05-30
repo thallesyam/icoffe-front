@@ -73,12 +73,13 @@ export function CartProvider({ children }: Props) {
   function calcTotal() {
     let total = 0
     cart.map((item) => {
-      total = item.unitPrice * item.quantity
+      total += item.unitPrice * item.quantity
     })
     setTotal(total + 5)
   }
 
   useEffect(() => {
+    if (!cartItems) return
     setCart(JSON.parse(cartItems))
     calcTotal()
   }, [])
