@@ -45,6 +45,7 @@ export function OrderCard({
               handleChangeItemQuantity={handleChangeItemQuantity}
             />
             <button
+              type="button"
               onClick={() => handleDeleteCartItems(productId)}
               className="bg-[#E6E5E5] p-2 max-h-8 flex items-center gap-1 rounded-md hover:bg-gray-300 hover:transition-all focus:outline-purple-500 uppercase"
             >

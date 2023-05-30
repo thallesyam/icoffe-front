@@ -43,6 +43,11 @@ export function Checkout() {
   const { cartItems, total, handleClearCart } = useCart()
 
   async function handleCreateOrder(values: IOrderForm) {
+    if (!cartItems?.length) {
+      alert('Não existe nenhum produto no seu carrinho')
+      return
+    }
+
     const response = await api.post('/payment', {
       cartItems,
       total,

@@ -40,8 +40,15 @@ export function CartProvider({ children }: Props) {
   const [total, setTotal] = useState(0)
   const cartItems = parseCookies(null, '@icoffee:cart')['@icoffee:cart']
 
-  function handleAddItemsOnCart(cart: CartProps) {
-    setCart((prevProps: CartProps[]) => [...prevProps, cart])
+  function handleAddItemsOnCart(item: CartProps) {
+    const productHasExists = cart.find(
+      (itemCart) => itemCart.productId === item.productId
+    )
+    if (productHasExists) {
+      handleUpdateCartItemQuantity(item.productId, 'increment')
+      return
+    }
+    setCart((prevProps: CartProps[]) => [...prevProps, item])
   }
 
   function handleClearCart() {
