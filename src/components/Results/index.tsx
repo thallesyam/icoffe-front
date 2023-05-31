@@ -26,7 +26,6 @@ export function Results({ title = 'Nossos Cafés' }: ResultsProps) {
 
   useEffect(() => {
     api.get('/products').then((response) => {
-      console.log({ response, user })
       if (Object.hasOwn(user ?? {}, 'companyName')) {
         const products = response.data?.products.filter(
           (product: ProductsProps) => product.companyId !== user?.id
