@@ -1,4 +1,4 @@
-import { parseCookies } from 'nookies'
+import { destroyCookie, parseCookies } from 'nookies'
 import {
   createContext,
   ReactNode,
@@ -45,8 +45,9 @@ type Props = {
 export const UserContext = createContext({} as UserContextProps)
 
 export function UserProvider({ children }: Props) {
-  const [user, setUser] = useState<UserProps | undefined>(undefined)
-  const isLogged = localStorage.getItem('@icoffee:user')
+  const user = !!localStorage.getItem('@icoffee:user')
+    ? JSON.parse(localStorage.getItem('@icoffee:user') as string)
+    : undefined
 
   function handleLoginWithGoogle(from: string) {
     const isCompany = !!from.includes('type=company')
@@ -68,7 +69,6 @@ export function UserProvider({ children }: Props) {
       if (event.origin === 'http://localhost:5000') {
         if (event.data) {
           localStorage.setItem('@icoffee:user', JSON.stringify(event.data))
-
           popup?.close()
           window.location.reload()
         }
@@ -76,15 +76,9 @@ export function UserProvider({ children }: Props) {
     })
   }
 
-  useEffect(() => {
-    const user = localStorage.getItem('@icoffee:user')
-    if (!user) return
-    setUser(JSON.parse(user))
-  }, [])
-
   return (
     <UserContext.Provider
-      value={{ user, isLogged: !!isLogged, handleLoginWithGoogle }}
+      value={{ user, isLogged: !!user, handleLoginWithGoogle }}
     >
       {children}
     </UserContext.Provider>

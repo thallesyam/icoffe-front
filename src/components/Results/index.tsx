@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import { ProductCard, ProductCardProps } from '@/components/ProductCard'
 import { api } from '@/service/api'
+import { useUser } from '@/contexts/UserContext'
 
 type ProductsProps = {
   imageUrl: string
   name: string
   description: string
+  companyId: string
   id: string
   company: {
     companyName: string
@@ -20,9 +22,18 @@ type ResultsProps = {
 
 export function Results({ title = 'Nossos Cafés' }: ResultsProps) {
   const [products, setProducts] = useState<ProductsProps[]>([])
+  const { user } = useUser()
 
   useEffect(() => {
     api.get('/products').then((response) => {
+      console.log({ response, user })
+      if (Object.hasOwn(user ?? {}, 'companyName')) {
+        const products = response.data?.products.filter(
+          (product: ProductsProps) => product.companyId !== user?.id
+        )
+        setProducts(products)
+        return
+      }
       setProducts(response.data?.products)
     })
   }, [])

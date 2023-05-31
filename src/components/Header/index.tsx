@@ -21,7 +21,6 @@ export function Header() {
       ((location.state as any)?.from.pathname as string) || '/profile'
 
     handleLoginWithGoogle(from)
-    console.log('olá')
   }
 
   function handleLogout() {
