@@ -32,7 +32,7 @@ export function Order({ isValid }: Props) {
         <div className="w-full flex flex-col gap-3">
           <div className="flex justify-between items-center">
             <p className="text-gray-700 text-sm">Entrega</p>
-            <p className="text-gray-700 text-base">R$ 3,50</p>
+            <p className="text-gray-700 text-base">R$ 5,00</p>
           </div>
 
           <div className="flex justify-between items-center">

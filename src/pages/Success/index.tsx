@@ -47,6 +47,7 @@ export function Success() {
       <h1 className="mb-16 text-gray-900 font-bold text-xl">
         Compra Efetuada!
       </h1>
+
       <section
         className={`grid ${defineGrid} gap-5 items-center justify-center align-middle`}
       >
@@ -61,19 +62,21 @@ export function Success() {
                 src={product.imageUrl ?? ''}
                 width={100}
                 height={100}
-                className="rounded-lg"
+                className="rounded-lg h-[100px] w-[100px]"
               />
             </div>
 
             <p className="font-light max-w-[300px] text-center mb-20 text-gray-800 text-lg">
-              Uhuul <b className="text-purple-900">{client?.clientName}</b>, seu
-              produto <b className="text-purple-900">{product.name}</b> já está
-              a caminho da sua casa. No endereço:{' '}
-              <b className="text-purple-900">{address}</b>
+              Seu produto <b className="text-purple-900">{product.name}</b> já
+              está sendo preparado.
             </p>
           </section>
         ))}
       </section>
+      <span className="mb-20">
+        A entrega será realizada no endereço:{' '}
+        <b className="text-purple-900">{address}</b>
+      </span>
 
       <div className="flex gap-3 w-full justify-center">
         <Link

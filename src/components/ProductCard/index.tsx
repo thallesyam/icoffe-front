@@ -4,6 +4,7 @@ import { api } from '@/service/api'
 import { QuantityChanger } from '@/components/QuantityChanger'
 import { useState } from 'react'
 import { useCart } from '@/contexts/MinicartContext'
+import { useUser } from '@/contexts/UserContext'
 
 export type ProductCardProps = {
   imageUrl: string
@@ -25,9 +26,15 @@ export function ProductCard({
   isProfilePage = false,
 }: ProductCardProps) {
   const { handleAddItemsOnCart } = useCart()
+  const { isLogged } = useUser()
   const [quantity, setQuantity] = useState(1)
 
   function handleAddOnCart() {
+    if (!isLogged) {
+      window.alert('Você precisa estar logado para comprar')
+      return
+    }
+
     const cart = {
       name,
       productId,
@@ -41,11 +48,11 @@ export function ProductCard({
   }
 
   function handleChangeItemQuantity(
-    action: 'increase' | 'decrease' = 'increase'
+    action: 'increment' | 'decrement' = 'increment'
   ) {
     const validateQuantityIfDecrease = quantity <= 1 ? quantity : quantity - 1
     const calc =
-      action === 'increase' ? quantity + 1 : validateQuantityIfDecrease
+      action === 'increment' ? quantity + 1 : validateQuantityIfDecrease
 
     setQuantity(calc)
   }
@@ -60,7 +67,7 @@ export function ProductCard({
       <img
         src={imageUrl}
         alt={name}
-        className="w-full max-w-[120px] max-h-[120px] m-auto relative -top-10 object-cover rounded-full"
+        className="w-[120px] h-[120px] m-auto relative -top-10 object-cover rounded-full"
       />
 
       <p className="w-full max-w-[81px] flex items-center justify-center bg-yellow-50 m-auto -mt-5 mb-4 p-1 rounded-full">

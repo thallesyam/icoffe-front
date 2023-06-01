@@ -1,14 +1,22 @@
 import { Header } from '@/components/Header'
 import { OrderCard } from '@/components/OrderCard'
 import { useCart } from '@/contexts/MinicartContext'
+import { useUser } from '@/contexts/UserContext'
 import { Link } from 'react-router-dom'
 
 export function Cart() {
   const { cartItems, total } = useCart()
+  const { isLogged } = useUser()
+
   const format = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',
   }).format(total)
+
+  if (!isLogged) {
+    return (window.location.href = '/')
+  }
+
   return (
     <main className="w-full max-w-6xl m-auto mb-4">
       <Header />

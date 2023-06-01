@@ -52,7 +52,7 @@ export function ProfileInfo() {
               </h2>
 
               <Link
-                to={`/${company}/new/product`}
+                to={`/${company.id}/new/product`}
                 className="bg-purple-500 p-2 max-h-8 flex items-center gap-1 rounded-md hover:bg-purple-900 hover:transition-all focus:outline-purple-500 uppercase"
               >
                 <Plus size={16} className="text-white" />

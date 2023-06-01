@@ -10,6 +10,7 @@ import { PaymentInfo } from '@/components/PaymentInfo'
 import { useCart } from '@/contexts/MinicartContext'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useUser } from '@/contexts/UserContext'
 
 export type IOrderForm = {
   cep: number
@@ -41,6 +42,7 @@ export function Checkout() {
     mode: 'all',
   })
   const { cartItems, total, handleClearCart } = useCart()
+  const { isLogged } = useUser()
 
   async function handleCreateOrder(values: IOrderForm) {
     if (!cartItems?.length) {
@@ -59,6 +61,10 @@ export function Checkout() {
     handleClearCart()
     const stripe = (await getStripeJs()) as any
     await stripe.redirectToCheckout({ sessionId: response.data.checkoutId })
+  }
+
+  if (!isLogged) {
+    return (window.location.href = '/')
   }
 
   return (
